@@ -7,6 +7,8 @@ import {
   transition
 } from '@angular/animations';
 
+import { StateDetailsService } from './../state-details.service';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -33,8 +35,11 @@ export class MapComponent implements OnInit {
   data:any = [];
   test:true;
   dataPie:any;
+  activeState= [];
+  inactiveState= [];
+  allPaths= {}
   @ViewChild('openBtn') openBtn : ElementRef;
-  constructor(private elementRef:ElementRef) {
+  constructor(private elementRef:ElementRef, private _states: StateDetailsService) {
 
     this.dataPie = {
       labels: ['A','B','C'],
@@ -98,8 +103,8 @@ export class MapComponent implements OnInit {
         "percentage":"45%",
         "states":[
           {
-            'state':"Arunachal Pradesh",
-            "id":"IN-AP"
+            'state':"Jammu & Kashmir",
+            "id":"IN-JK"
           },
           {
             'state':"Himachal Pradesh",
@@ -117,17 +122,20 @@ export class MapComponent implements OnInit {
 
   ngAfterViewInit() {
 
-    console.dir(this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes);
+    //console.dir(this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes);
     // this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes
     //                               .addEventListener('click', this.toggleState.bind(this));
     for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
       path.addEventListener('click', this.toggleState.bind(this));
       path.addEventListener('mouseover', this.changeStyle.bind(this));
       path.addEventListener('mouseout', this.changeStyle2.bind(this));
+      if(path.id) {
+        this.allPaths[path.id] = path;
+      }
     }
   }
   changeStyle(event) {
-    console.log('activeeeeeeeeeeee'+event.target.id);
+    //console.log('Good Idea',this.allPaths);
     this.id = event.target.id
     event.target.classList.add('active');
     this.showToolTip = true;
@@ -144,26 +152,62 @@ export class MapComponent implements OnInit {
     this.openBtn.nativeElement.click();
   }
   test1(index,event) {
-    console.log(this.diseaseData[index].states);
-    for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
-      path.addEventListener('click', this.clickEvent.bind(this));
+    this.activeState = [];
+    for(let i of this.diseaseData[index].states){
+      console.log(i['id']);
+      this.activeState.push(i['id']);
     }
+
+    for(let i in this.allPaths) {
+      //this.allPaths[i['id']].classList.add('active1');
+      if(this.activeState.indexOf(i) > -1){
+        this.allPaths[i].classList.add('active1');
+        this.allPaths[i].classList.remove('basic');
+      }else{
+        this.allPaths[i].classList.remove('active1');
+        this.allPaths[i].classList.add('basic');
+      }
+    }
+  }
+  /*test1(index,event) {
+    console.log(this.diseaseData[index].states);
+    // for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
+    //   path.addEventListener('click', this.clickEvent.bind(this));
+    // }
     for(let i of this.diseaseData[index].states){
       for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
         if(i['id'] == path.id){
-          path.classList.add('active1');
-          console.log('active1, 'i['id']);
+          let curClass = Array.prototype.slice.call(path.classList);
+          if(curClass.indexOf('active1') < 0) {
+            //this.activeClass.push(path);
+            console.log('here');
+            path.classList.add('active1');
+          }
+
+          //path.classList.remove('basic');
+
         }else{
-          if(path.hasOwnProperty['id']) {
-            path.classList.remove('active1');
-            path.classList.remove('st0');
-            path.classList.add('basic');
+          //path.classList.add('basic');
+          if(path.classList) {
+            let curClass = Array.prototype.slice.call(path.classList);
+            // if(curClass.indexOf('active1') > 0) {
+            //
+            //   this.activeClass.splice(path);
+            //   path.classList.remove('active1');
+            // }
+            //console.log(path);
+            //path.classList.add('basic');
+            //path.classList.remove('active1');
+
           }
         }
       }
     }
-  }
-  clickEvent(event){
-    event.target.classList.remove('active');
-  }
+    //console.log(this.activeState);
+  }*/
+
+  // clickEvent(event){
+  //   event.target.classList.remove('active');
+  // }
+
 }

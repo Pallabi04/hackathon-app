@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MapComponent } from './map/map.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { StateDetailsService } from './state-details.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { TooltipComponent } from './tooltip/tooltip.component';
     ChartModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [StateDetailsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
