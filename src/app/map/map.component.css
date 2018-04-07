@@ -5,5 +5,7 @@
 }
 
 .active{
-  fill:red;fill-opacity:1
+  fill:red;
+  fill-opacity:1;
+  transform: 'scale(2)';
 }
