@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef,ViewChild } from '@angular/core';
 import {
   trigger,
   state,
@@ -27,10 +27,92 @@ import {
   ]
 })
 export class MapComponent implements OnInit {
+  diseaseData:any;
+  id: any;
+  showToolTip:boolean = false;
+  data:any = [];
+  test:true;
+  dataPie:any;
+  @ViewChild('openBtn') openBtn : ElementRef;
+  constructor(private elementRef:ElementRef) { 
 
-  constructor(private elementRef:ElementRef) { }
+    this.dataPie = {
+      labels: ['A','B','C'],
+      datasets: [
+          {
+              data: [300, 50, 100],
+              backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56"
+              ],
+              hoverBackgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56"
+              ]
+          }]    
+      };
+  }
 
   ngOnInit() {
+    this.data = [
+      {
+        'state':"Jammu and Kashmir",
+        "id":"IN-JK"
+      },
+      {
+        'state':"West Bengal",
+        "id":"IN-WB"
+      },
+      {
+        'state':"Himachal Pradesh",
+        "id":"IN-HP"
+      },
+      {
+        'state':"Arunachal Pradesh",
+        "id":"IN-AP"
+      }
+    ];
+    this.diseaseData= [
+      {
+        "diseaseName":"Dengue",
+        "percentage":"15%",
+        "states":[
+          {
+            'state':"Arunachal Pradesh",
+            "id":"IN-AP"
+          },
+          {
+            'state':"Himachal Pradesh",
+            "id":"IN-HP"
+          },
+          {
+            'state':"West Bengal",
+            "id":"IN-WB"
+          }
+        ]
+      },
+      {
+        "diseaseName":"Chicken Pox",
+        "percentage":"45%",
+        "states":[
+          {
+            'state':"Arunachal Pradesh",
+            "id":"IN-AP"
+          },
+          {
+            'state':"Himachal Pradesh",
+            "id":"IN-HP"
+          },
+          {
+            'state':"West Bengal",
+            "id":"IN-WB"
+          }
+        ]
+      }
+
+    ]
   }
 
   ngAfterViewInit() {
@@ -45,20 +127,30 @@ export class MapComponent implements OnInit {
     }
   }
   changeStyle(event) {
-    console.log(event);
+    console.log('activeeeeeeeeeeee'+event.target.id);
+    this.id = event.target.id
     event.target.classList.add('active');
+    this.showToolTip = true;
   }
 
   changeStyle2(event) {
-    console.log('2'+event);
+    console.log(''+event);
+    this.showToolTip = false;
     event.target.classList.remove('active');
   }
 
   toggleState(event) {
-    //this.state = this.state === 'active' ? 'inactive' : 'active';
-    //event.target.classList.add('active');
     console.log(3, event);
-    console.log(3, event.class);
-    event.state =  'active';
+    this.openBtn.nativeElement.click();
+  }
+  test1(index,event) {
+    console.log(this.diseaseData[index]);
+    for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
+      path.addEventListener('click', this.clickEvent.bind(this));
+    }
+  }
+  clickEvent(event){
+    event.target.classList.remove('active');
+
   }
 }

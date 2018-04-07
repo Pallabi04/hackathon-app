@@ -1,11 +1,19 @@
 .conatiner-map {
-  width: 75%;
-  margin-left: 300px;
+  width: 35%;
+  margin-left: 35%;
   margin-top: 70px;
 }
 
 .active{
   fill:red;
+  fill-opacity:1;
+  transform: 'scale(2)';
+}
+st0HP {
+  fill:#318f36 !important;
+}
+.active1 {
+  fill:rgb(230, 100, 5);
   fill-opacity:1;
   transform: 'scale(2)';
 }
