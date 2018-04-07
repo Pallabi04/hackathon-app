@@ -34,7 +34,7 @@ export class MapComponent implements OnInit {
   test:true;
   dataPie:any;
   @ViewChild('openBtn') openBtn : ElementRef;
-  constructor(private elementRef:ElementRef) { 
+  constructor(private elementRef:ElementRef) {
 
     this.dataPie = {
       labels: ['A','B','C'],
@@ -51,7 +51,7 @@ export class MapComponent implements OnInit {
                   "#36A2EB",
                   "#FFCE56"
               ]
-          }]    
+          }]
       };
   }
 
@@ -144,13 +144,26 @@ export class MapComponent implements OnInit {
     this.openBtn.nativeElement.click();
   }
   test1(index,event) {
-    console.log(this.diseaseData[index]);
+    console.log(this.diseaseData[index].states);
     for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
       path.addEventListener('click', this.clickEvent.bind(this));
+    }
+    for(let i of this.diseaseData[index].states){
+      for(let path of this.elementRef.nativeElement.childNodes[0].childNodes[1].childNodes) {
+        if(i['id'] == path.id){
+          path.classList.add('active1');
+          console.log('active1, 'i['id']);
+        }else{
+          if(path.hasOwnProperty['id']) {
+            path.classList.remove('active1');
+            path.classList.remove('st0');
+            path.classList.add('basic');
+          }
+        }
+      }
     }
   }
   clickEvent(event){
     event.target.classList.remove('active');
-
   }
 }
