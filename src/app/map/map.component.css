@@ -1,0 +1,9 @@
+.conatiner-map {
+  width: 75%;
+  margin-left: 300px;
+  margin-top: 70px;
+}
+
+.active{
+  fill:red;fill-opacity:1
+}
